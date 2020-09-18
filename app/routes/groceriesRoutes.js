@@ -8,7 +8,7 @@ const handle404 = require('./../../lib/custom_errors')
 
 const requireToken = passport.authenticate('bearer', { session: false })
 // index!!
-router.get('/groceries', requireToken, (req, res, next) => {
+router.get('/groceries', (req, res, next) => {
   // const id = req.params.id
   Groceries.find()
     .populate('user')
@@ -28,14 +28,14 @@ router.get('/groceries/:id', requireToken, (req, res, next) => {
     .catch(next)
 })
 router.post('/groceries', requireToken, (req, res, next) => {
-  const groceriesData = req.body.groceries.id
+  const groceriesData = req.body.list
   Groceries.create(groceriesData)
     .then(grocery => res.status(201).json({ grocery }))
     .catch(next)
 })
 router.patch('/groceries/:id', requireToken, (req, res, next) => {
   const id = req.params.id
-  const groceriesData = req.body.groceries
+  const groceriesData = req.body.list
   Groceries.findById(id)
     .then(grocery => handle404(grocery))
     .then(grocery => grocery.updateOne(groceriesData))
