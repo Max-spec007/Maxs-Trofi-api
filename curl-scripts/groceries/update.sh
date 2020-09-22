@@ -13,8 +13,7 @@ curl "${API}${URL_PATH}/${ID}" \
       "nameofood": "'"${NAMEOFFOOD}"'",
       "dateofpurchase": "'"${DATEOFPURCHASE}"'",
       "quantity": "'"${QUANTITY}"'",
-      "category": "'"${CATEGORY}"'",
-      "owner": "'"${OWNER}"'"
+      "category": "'"${CATEGORY}"'"
     }
   }'
 

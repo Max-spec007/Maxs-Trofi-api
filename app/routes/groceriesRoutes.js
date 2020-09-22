@@ -28,16 +28,20 @@ router.get('/groceries/:id', requireToken, (req, res, next) => {
     .catch(next)
 })
 router.post('/groceries', requireToken, (req, res, next) => {
-  const groceriesData = req.body.list
+  console.log('It worked!', req.body)
+  req.body.groceries.owner = req.user.id
+  const groceriesData = req.body.groceries
   Groceries.create(groceriesData)
-    .then(grocery => res.status(201).json({ grocery }))
+    .then(grocery =>
+      res.status(201).json({ grocery }))
     .catch(next)
 })
 router.patch('/groceries/:id', requireToken, (req, res, next) => {
   const id = req.params.id
-  const groceriesData = req.body.list
+  req.body.groceries.owner = req.user.id
+  const groceriesData = req.body.groceries
   Groceries.findById(id)
-    .then(grocery => handle404(grocery))
+    .then(handle404)
     .then(grocery => grocery.updateOne(groceriesData))
     .then(grocery => res.json({ grocery }))
     .catch(next)
