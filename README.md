@@ -4,7 +4,7 @@
   ## Technical Details
   #### API
      API allows the users to perform the CRUD actions to their created grocery
-      list.
+     list.
   #### API URL
     Via production: https://max-grocery-app-1.herokuapp.com/
   #### API Web Database Function Diagram
