@@ -3,7 +3,7 @@
   register and create a grocery list as they are on the go. Happy Shopping!
   ## Technical Details
   #### API
-    - API allows the users to perform the CRUD actions to their created grocery
+     API allows the users to perform the CRUD actions to their created grocery
       list.
   #### API URL
     Via production: https://max-grocery-app-1.herokuapp.com/
