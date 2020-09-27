@@ -14,7 +14,7 @@ const customErrors = require('../../lib/custom_errors')
 const handle404 = customErrors.handle404
 // we'll use this function to send 401 when a user tries to modify a resource
 // that's owned by someone else
-// const requireOwnership = customErrors.requireOwnership
+const requireOwnership = customErrors.requireOwnership
 
 // this is middleware that will remove blank fields from `req.body`, e.g.
 // { example: { title: '', text: 'foo' } } -> { example: { text: 'foo' } }
@@ -52,11 +52,15 @@ router.post('/groceries', requireToken, (req, res, next) => {
 })
 router.patch('/groceries/:id', requireToken, (req, res, next) => {
   const id = req.params.id
-  req.body.groceries.owner = req.user.id
+  delete req.body.groceries.owner
   const groceriesData = req.body.groceries
+
   Groceries.findById(id)
     .then(handle404)
-    .then(grocery => grocery.updateOne(groceriesData))
+    .then(grocery => {
+      requireOwnership(req, grocery)
+      return grocery.updateOne(groceriesData)
+    })
     .then(grocery => res.json({ grocery }))
     .catch(next)
 })
@@ -64,7 +68,11 @@ router.delete('/groceries/:id', requireToken, (req, res, next) => {
   const id = req.params.id
   Groceries.findById(id)
     .then(handle404)
-    .then(grocery => grocery.deleteOne())
+    .then(grocery => {
+      requireOwnership(req, grocery)
+      grocery.deleteOne()
+    })
+
     .then(grocery => res.sendStatus(204))
     .catch(next)
 })
