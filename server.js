@@ -39,19 +39,6 @@ const app = express()
 // `CLIENT_ORIGIN` is an environment variable that will be set on Heroku
 app.use(cors({ origin: process.env.CLIENT_ORIGIN || `http://localhost:${clientDevPort}` }))
 
-app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin')
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  )
-  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE')
-  res.header('Access-Control-Allow-Credentials', true)
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(204)
-  }
-  next()
-})
 // define port for API to run on
 const port = process.env.PORT || serverDevPort
 
